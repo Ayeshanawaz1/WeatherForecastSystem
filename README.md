@@ -203,11 +203,6 @@ Convert `Server.cpp` → Express.js or FastAPI, then deploy the web frontend on 
 
 ---
 
-## 📝 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
----
 
 ## 👩‍💻 Authors
 
@@ -223,5 +218,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ---
 
 <div align="center">
-  <sub>Built with ❤️ and C++ · Powered by WeatherAPI.com</sub>
+  <sub>Built with C++ · Powered by WeatherAPI.com</sub>
 </div>
