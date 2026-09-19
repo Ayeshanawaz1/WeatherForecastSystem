@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Page 1: Welcome Screen -->
+<div id="welcome-page" class="page active">
+    <div class="weather-icon-container">
+        <img src="cloud.png" alt="Weather Icon" class="weather-icon">
+    </div>
+    <div class="app-header">
+        <h1 class="app-title">
+            <span class="weather-text">WEATHER</span>
+            <span class="forecasts-text">FORECASTS</span>
+        </h1>
+    </div>
+    <div class="welcome-container">
+        <div class="welcome-buttons">
+            <button id="welcome-btn"> Welcome! </button>
+            <button id="history-btn"> <span style="font-size: 21px;"> View History </span></button>
+        </div>
+    </div>
+</div>
+
+    <!-- Page 2: Search Screen -->
+    <div id="search-page" class="page">
+    <div class="weather-icon-container">
+        <img src="cloud.png" alt="Weather Icon" class="weather-icon">
+    </div>
+        <div class="search-container">
+            <div class="search-inputs">
+                <input type="text" id="country" placeholder="Search for a country">
+                <input type="text" id="city" placeholder="Search for a city">
+            </div>
+            
+            <div class="forecast-options">
+		<button id="search-back-btn">← Back</button>
+                <button id="daily-btn">Daily</button>
+                <button id="hourly-btn">Hourly</button>
+                <button id="weekly-btn">One Week</button>
+            </div>
+            
+            <div id="date-selection" class="hidden">
+                <input type="date" id="date-input">
+                <button id="submit-date">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Results Screen -->
+    <div id="results-page" class="page">
+    <div class="weather-icon-container">
+        <img src="cloud.png" alt="Weather Icon" class="weather-icon">
+    </div>
+        <div class="results-container">
+            <button id="results-back-btn">← Back</button>
+            <div id="weather-results" class="forecast-container"></div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+<div id="history-page" class="page">
+    <div class="weather-icon-container">
+
+    </div>
+    <button id="history-back-btn">← Back</button>
+    <div class="history-container">
+        <h2>Search History</h2>
+        <div id="history-list"></div>
+    </div>
+</div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

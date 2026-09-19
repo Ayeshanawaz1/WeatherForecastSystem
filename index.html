@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .forecast-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather Forecast</h1>
+    
+    <div class="form-group">
+        <label for="forecast-type">Forecast Type:</label>
+        <select id="forecast-type" onchange="toggleDateField()">
+            <option value="weekly">Weekly Forecast</option>
+            <option value="daily">Daily Forecast</option>
+            <option value="hourly">Hourly Forecast</option>
+        </select>
+        
+        <div id="date-field" class="hidden">
+            <label for="date">Date (YYYY-MM-DD):</label>
+            <input type="date" id="date" required>
+        </div>
+        
+        <label for="country">Country:</label>
+        <input type="text" id="country" placeholder="e.g., France" required>
+        
+        <label for="city">City:</label>
+        <input type="text" id="city" placeholder="e.g., Paris" required>
+        
+        <button onclick="getForecast()">Get Forecast</button>
+    </div>
+    
+    <div id="result"></div>
+
+    <script>
+        function toggleDateField() {
+            const forecastType = document.getElementById('forecast-type').value;
+            const dateField = document.getElementById('date-field');
+            
+            if (forecastType === 'weekly') {
+                dateField.classList.add('hidden');
+            } else {
+                dateField.classList.remove('hidden');
+            }
+        }
+
+        async function getForecast() {
+            const forecastType = document.getElementById('forecast-type').value;
+            const country = document.getElementById('country').value;
+            const city = document.getElementById('city').value;
+            let date = '';
+            
+            if (forecastType !== 'weekly') {
+                date = document.getElementById('date').value;
+                if (!date) {
+                    alert('Please select a date');
+                    return;
+                }
+            }
+            
+            if (!country || !city) {
+                alert('Please enter both country and city');
+                return;
+            }
+
+            let apiUrl = '';
+            switch(forecastType) {
+                case 'weekly':
+                    apiUrl = `http://localhost:8080/api/weekly?city=${city}&country=${country}`;
+                    break;
+                case 'daily':
+                    apiUrl = `http://localhost:8080/api/daily?city=${city}&country=${country}&date=${date}`;
+                    break;
+                case 'hourly':
+                    apiUrl = `http://localhost:8080/api/hourly?city=${city}&country=${country}&date=${date}`;
+                    break;
+            }
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                displayResults(data, forecastType);
+            } catch (error) {
+                document.getElementById('result').innerHTML = `
+                    <div style="color: red; padding: 10px;">
+                        Error: ${error.message}
+                    </div>
+                `;
+                console.error('Error:', error);
+            }
+        }
+
+        function displayResults(data, forecastType) {
+            const resultDiv = document.getElementById('result');
+            
+            if (forecastType === 'weekly') {
+                let html = `<h2>Weekly Forecast for ${data.city}, ${data.country}</h2>`;
+                data.forecast.forEach(day => {
+                    html += `
+                        <div class="forecast-item">
+                            <h3>${day.date}</h3>
+                            <p><strong>Condition:</strong> ${day.condition}</p>
+                            <p><strong>Temperature:</strong> ${day.temperature}°C</p>
+                            <p><strong>Humidity:</strong> ${day.humidity}%</p>
+                            <p><strong>Wind Speed:</strong> ${day.wind} km/h</p>
+                        </div>
+                    `;
+                });
+                resultDiv.innerHTML = html;
+            } 
+            else if (forecastType === 'daily') {
+                resultDiv.innerHTML = `
+                    <h2>Daily Forecast for ${data.city}, ${data.country} on ${data.date}</h2>
+                    <div class="forecast-item">
+                        <p><strong>Condition:</strong> ${data.condition}</p>
+                        <p><strong>Temperature:</strong> ${data.temperature}°C</p>
+                        <p><strong>Humidity:</strong> ${data.humidity}%</p>
+                        <p><strong>Wind Speed:</strong> ${data.wind} km/h</p>
+                    </div>
+                `;
+            }
+            else if (forecastType === 'hourly') {
+                let html = `<h2>Hourly Forecast for ${data.city}, ${data.country} on ${data.date}</h2>`;
+                data.hourly.forEach(hour => {
+                    html += `
+                        <div class="forecast-item">
+                            <h3>${hour.time}</h3>
+                            <p><strong>Condition:</strong> ${hour.condition}</p>
+                            <p><strong>Temperature:</strong> ${hour.temperature}°C</p>
+                            <p><strong>Humidity:</strong> ${hour.humidity}%</p>
+                            <p><strong>Wind Speed:</strong> ${hour.wind} km/h</p>
+                        </div>
+                    `;
+                });
+                resultDiv.innerHTML = html;
+            }
+        }
+    </script>
+</body>
+</html>

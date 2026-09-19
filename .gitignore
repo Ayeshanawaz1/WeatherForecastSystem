@@ -1,0 +1,31 @@
+# Build output
+*.exe
+*.obj
+*.o
+*.ilk
+*.pdb
+
+# VS Code
+.vscode/
+
+# Visual Studio
+.vs/
+x64/
+*.user
+*.vc.db
+*.vc.opendb
+
+# Weather data (runtime generated)
+weather_history.txt
+weather_data.txt
+
+# Compiled object files
+*.slo
+*.lo
+*.la
+*.a
+*.lib
+
+# Archive files
+*.rar
+*.zip
