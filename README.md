@@ -215,7 +215,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 [![GitHub](https://img.shields.io/badge/GitHub-Ayeshanawaz1-181717?style=flat&logo=github)](https://github.com/Ayeshanawaz1)
 
 **Muhammad Umar** - Univeristy Project
-(https://github.com/Muhammad-UmarX)
+[![GitHub](https://img.shields.io/badge/GitHub-Muhammad-UmarX-181717?style=flat&logo=github)](https://github.com/Muhammad-UmarX)
 
 
 
