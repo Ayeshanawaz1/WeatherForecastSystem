@@ -209,7 +209,7 @@ Convert `Server.cpp` → Express.js or FastAPI, then deploy the web frontend on 
 **Ayesha Nawaz** — University Project  
 [![GitHub](https://img.shields.io/badge/GitHub-Ayeshanawaz1-181717?style=flat&logo=github)](https://github.com/Ayeshanawaz1)
 
-**Muhammad Umar** - Univeristy Project
+**Muhammad Umar** - University Project
 (https://github.com/Muhammad-UmarX)
 
 
